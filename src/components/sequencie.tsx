@@ -1,17 +1,16 @@
 
-import colorBlue from "../../assets/color-blue.png";
-import colorGreen from "../../assets/color-green.png";
-import colorPink from "../../assets/color-pink.png";
-import colorRed from "../../assets/color-red.png";
-import colorWhite from "../../assets/color-white.png";
-import colorYellow from "../../assets/color-yellow.png";
-
+import colorBlue from "../assets/color-blue.png";
+import colorGreen from "../assets/color-green.png";
+import colorPink from "../assets/color-pink.png";
+import colorRed from "../assets/color-red.png";
+import colorWhite from "../assets/color-white.png";
+import colorYellow from "../assets/color-yellow.png";
 
 
 function Sequencie() {
   return (
     <>
-      <div className="sequencie-component">
+      <div className="sequencie-component ">
       <header>
         <h2>Color Sequence</h2>
       </header>

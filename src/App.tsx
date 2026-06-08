@@ -1,4 +1,5 @@
-import Sequencie from "./components/sequencie/sequencie.tsx";
+import Sequencie from "./components/sequencie.tsx";
+import Menu from "./components/menu.tsx";
 function App() {
   return (
     <>
@@ -7,6 +8,7 @@ function App() {
       </header>
 
       <main>
+        <Menu />
         <Sequencie />
       </main>
 
