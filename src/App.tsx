@@ -7,7 +7,7 @@ function App() {
         <h1>Color Sequence</h1>
       </header>
 
-      <main>
+      <main className="text-center flex flex-col items-center justify-center gap-4">
         <Menu />
         <Sequencie />
       </main>
