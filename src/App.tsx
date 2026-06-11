@@ -2,21 +2,12 @@ import Sequencie from "./components/sequencie.tsx";
 import Menu from "./components/menu.tsx";
 function App() {
   return (
-    <>
-      <header className="header">
-        <h1>Color Sequence</h1>
-      </header>
-
-      <main className="text-center flex flex-col items-center justify-center gap-4">
+    <div className="h-screen w-screen font-[Poppins]">
+      <main className=" text-center flex flex-col content-center items-center justify-center gap-4 h-full">
         <Menu />
-        <Sequencie />
+        {/* <Sequencie /> */}
       </main>
-
-      <footer>
-        <p>&#169;2026 Davy Ribeiro</p>
-        <a href="#">Dev Davy Ribeiro</a>
-      </footer>
-    </>
+    </div>
   )
 }
 
