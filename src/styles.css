@@ -98,6 +98,11 @@ input:checked + .slider:before {
     display: inline-block;
 }
 
+.reservation .item{
+    height: 100%;
+    width: 100%;
+}
+
 .sequencie-container .item{
     width: 25%;
     height: 100%;

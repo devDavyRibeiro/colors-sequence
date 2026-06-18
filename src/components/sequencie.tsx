@@ -11,11 +11,11 @@ function Sequencie() {
       <header>
         <h2 className=" ">Color Sequence</h2>
       </header>
-      <div className="reservation flex justify-end ml-[50%] gap-2 items-center">
+      <div className="reservation flex h-18 justify-end ml-[50%] gap-2 items-center">
         <div className="item">
           <img src={colorRed} alt="Red" id="red" draggable={true} />
         </div>
-        <div className="item">
+        <div className="item">    
           <img src={colorGreen} alt="Green" id="green" draggable={true} />
         </div>
         <div className="item">
