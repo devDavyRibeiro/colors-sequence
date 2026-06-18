@@ -7,6 +7,13 @@
     --color-confirm: #95D1FC
 }
 
+/*regras gerais*/
+
+h2{
+    font-size:30px;
+    font-weight: bold;
+}
+
 button{
     background-color: var(--color-confirm);
     border: 1px solid var(--color-gray-300);
@@ -17,6 +24,8 @@ button:hover{
     cursor: pointer;
     box-shadow:  1px 1px 1px black;
 }
+
+/*switch input*/
 
 .switch {
   position: relative;
@@ -79,3 +88,19 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+/* item imagem tinta */
+
+.item{
+    background-color: #ffffff54;
+    margin: auto;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.sequencie-container .item{
+    min-width: 175px; 
+    min-height: 175px;
+}
+
+
