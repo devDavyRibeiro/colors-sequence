@@ -9,9 +9,9 @@ function Sequencie() {
   return (
     <div className="flex flex-col w-[75%] p-10 bg-segundary rounded-3xl gap-5">
       <header>
-        <h2 className="">Color Sequence</h2>
+        <h2 className=" ">Color Sequence</h2>
       </header>
-      <div className="reservation flex justify-between ml-[50%] gap-2 items-center">
+      <div className="reservation flex justify-end ml-[50%] gap-2 items-center">
         <div className="item">
           <img src={colorRed} alt="Red" id="red" draggable={true} />
         </div>
@@ -31,7 +31,7 @@ function Sequencie() {
           <img src={colorPink} alt="Pink" id="pink" draggable={true} />
         </div>
       </div>
-      <div className="sequencie-container flex justify-between gap-5 items-center">
+      <div className="sequencie-container flex h-45 w-full justify-end gap-5 items-center">
         <div className="item">
           
         </div>
