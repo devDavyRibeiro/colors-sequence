@@ -5,13 +5,40 @@ import colorPink from "../assets/color-pink.png";
 import colorRed from "../assets/color-red.png";
 import colorWhite from "../assets/color-white.png";
 import colorYellow from "../assets/color-yellow.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import type { IForm } from "./menu";
 
-function Sequencie() {
 
-  const SEQUENCE_INITIAL : string[] = ["red","green","blue","yellow"];
+
+function Sequencie(props: {
+  form: IForm
+}) {
+
+  let sequenceInitial:string[] = []
   
   const [lances,setLances] = useState(0);
+  
+  const initialSequenceComponent = (form:IForm)=>{
+    const tintasAll: string[] = ["red","green","blue","yellow","white","pink"]
+    const tintasInGame = tintasAll.slice(0,form.colorCount)
+    const sequence:string[] = []
+    while(sequence.length !== form.colorCount) {
+      const randomNumber: number = Math.floor(Math.random() * (Math.floor(form.colorCount) - Math.ceil(0)))
+      console.log("número aleatório" + randomNumber)
+      const tinta:string = tintasInGame[randomNumber] 
+      if(sequence.length > 0){
+        if(sequence.find(t=>t === tinta)) 
+          continue
+      }
+      sequence.push(tintasInGame[randomNumber])
+      
+    }
+    sequenceInitial = sequence
+  }
+  useEffect(()=>{
+    initialSequenceComponent(props.form);
+    
+  },[props.form.colorCount])
   
 
   const dragStartHandler = (e:React.DragEvent<HTMLImageElement>)=>{
@@ -50,7 +77,7 @@ function Sequencie() {
 
     for (let i = 0; i < sequenceNow.length; i++) {
       
-      const positionTintaSequence = SEQUENCE_INITIAL.indexOf(sequenceNow[i]);
+      const positionTintaSequence = sequenceInitial.indexOf(sequenceNow[i]);
       if(positionTintaSequence < 0) continue;
       numColor++;
 

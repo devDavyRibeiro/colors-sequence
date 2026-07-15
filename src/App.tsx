@@ -14,7 +14,7 @@ function App() {
         </>
         :
         <>
-          <Sequencie />
+          <Sequencie form={form} />
         </>
         }
 

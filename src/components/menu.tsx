@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
 export interface IForm{
-    colorCount?: number,
-    revealSequence?: boolean
+    colorCount: number,
+    revealSequence: boolean
 }
 
 type propsMenu={
@@ -24,7 +24,7 @@ export default function Menu(props:propsMenu) {
           <div className="flex flex-row mx-10 justify-between">
             <label htmlFor="colorCount">Número de Cores:</label>
             <input className="border border-gray-300 rounded-md p-1 text-center w-1/5" 
-             type="number" min="3" max="10" required
+             type="number" min="3" max="6" required
              value={colorCount} onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setColorCount(Number(e.currentTarget.value))}
             />
           </div>
