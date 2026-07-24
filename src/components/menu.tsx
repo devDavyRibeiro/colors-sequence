@@ -34,7 +34,7 @@ export default function Menu(props:propsMenu) {
               <label className="switch">
                 <input
                  type="checkbox"
-                 checked={revealSequence}  onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setRevealSequence(Boolean(e.currentTarget.value))}
+                 checked={revealSequence} name="revealSequence" onChange={()=>setRevealSequence(!revealSequence)}
                 />
                 <span className="slider round"></span>
             </label>
