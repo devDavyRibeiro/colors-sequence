@@ -7,7 +7,7 @@ import colorWhite from "../assets/color-white.png";
 import colorYellow from "../assets/color-yellow.png";
 import { useMemo, useState } from "react";
 import type { IForm } from "./menu";
-
+import Swal from 'sweetalert2';
 
 
 function Sequencie(props: {
@@ -58,11 +58,16 @@ function Sequencie(props: {
     const documents:NodeListOf<HTMLImageElement> = document.querySelectorAll(".sequencie-container > .item img")
     
     if(documents.length < props.form.colorCount){
-      alert(`É preciso ter ${props.form.colorCount} tintas colocadas`)
+      Swal.fire({
+        title:"Ops...",
+        text:`É preciso ter ${props.form.colorCount} tintas colocadas`,
+        icon:'error'
+      })
       return
     }
 
     setLances(lances + 1);
+
     
     documents.forEach(d=>{
       sequenceNow.push(d.id)
@@ -77,8 +82,18 @@ function Sequencie(props: {
       if(positionTintaSequence === i) numPosition++ 
     }
 
-    alert("Número de cores certas: " + numColor + 
-      "\nNúmero de posições certas: " + numPosition)
+    if(numColor === props.form.colorCount && numPosition === props.form.colorCount){
+      Swal.fire({
+        title: "Parabéns",
+        text: "Você acertou a sequência com " + lances + " tentativas!",
+        icon:"success",
+      })
+    } 
+    else{
+      Swal.fire(`Número de cores certas: ${numColor}  
+        \nNúmero de posições certas: ${numPosition}`)      
+    }
+
 
   }
 
