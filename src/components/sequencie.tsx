@@ -5,7 +5,7 @@ import colorPink from "../assets/color-pink.png";
 import colorRed from "../assets/color-red.png";
 import colorWhite from "../assets/color-white.png";
 import colorYellow from "../assets/color-yellow.png";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import type { IForm } from "./menu";
 
 
@@ -14,32 +14,25 @@ function Sequencie(props: {
   form: IForm
 }) {
 
-  let sequenceInitial:string[] = []
-  
   const [lances,setLances] = useState(0);
+  const sequenceInitial = useMemo(()=>{
+    const tintasAll = ['red', 'green', 'blue', 'yellow', 'white', 'pink']
+    const tintasInGame = tintasAll.slice(0, props.form.colorCount)
   
-  const initialSequenceComponent = (form:IForm)=>{
-    const tintasAll: string[] = ["red","green","blue","yellow","white","pink"]
-    const tintasInGame = tintasAll.slice(0,form.colorCount)
-    const sequence:string[] = []
-    while(sequence.length !== form.colorCount) {
-      const randomNumber: number = Math.floor(Math.random() * (Math.floor(form.colorCount) - Math.ceil(0)))
-      console.log("número aleatório" + randomNumber)
-      const tinta:string = tintasInGame[randomNumber] 
-      if(sequence.length > 0){
-        if(sequence.find(t=>t === tinta)) 
-          continue
-      }
-      sequence.push(tintasInGame[randomNumber])
-      
+    const sequence: string[] = []
+  
+    while (sequence.length !== props.form.colorCount) {
+      // eslint-disable-next-line react-hooks/purity
+      const randomNumber = Math.floor(Math.random() * props.form.colorCount)
+      const tinta = tintasInGame[randomNumber]
+  
+      if (sequence.includes(tinta)) continue
+  
+      sequence.push(tinta)
     }
-    sequenceInitial = sequence
-  }
-  useEffect(()=>{
-    initialSequenceComponent(props.form);
-    
-  },[props.form.colorCount])
-  
+    return sequence
+  },[props.form.colorCount]) 
+
 
   const dragStartHandler = (e:React.DragEvent<HTMLImageElement>)=>{
     e.dataTransfer.setData("text",e.currentTarget.id)
@@ -64,8 +57,8 @@ function Sequencie(props: {
     const sequenceNow: string[] = [];
     const documents:NodeListOf<HTMLImageElement> = document.querySelectorAll(".sequencie-container > .item img")
     
-    if(documents.length !== 4){
-      alert("É preciso ter 4 tintas colocadas")
+    if(documents.length < props.form.colorCount){
+      alert(`É preciso ter ${props.form.colorCount} tintas colocadas`)
       return
     }
 
@@ -116,18 +109,15 @@ function Sequencie(props: {
         </div>
       </div>
       <div className="sequencie-container flex h-45 w-full justify-end gap-5 items-center">
-        <div className="item" onDragOver={dragOverHandler} onDrop={dropHandler}>
-          
-        </div>
-        <div className="item" onDragOver={dragOverHandler} onDrop={dropHandler}>
-         
-        </div>
-        <div className="item" onDragOver={dragOverHandler} onDrop={dropHandler}>
-          
-        </div>
-        <div className="item" onDragOver={dragOverHandler} onDrop={dropHandler}>
-          
-        </div>    
+
+        {
+          sequenceInitial.map((_, i:number)=> {
+            return (
+            <div key={i} className="item" onDragOver={dragOverHandler} onDrop={dropHandler}></div>
+            )
+          })
+        }
+            
       </div>
       <button onClick={submitSequence} className="text-center w-2/6 m-auto h-10 text-2xl font-bold">Testar</button>
     </div>
