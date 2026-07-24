@@ -110,4 +110,11 @@ input:checked + .slider:before {
     max-height: 175px;
 }
 
+.sequencie-container .item:first-child{
+  margin-left: 0px;
+}
+.sequencie-container .item:last-child{
+  margin-right: 0px;
+}
+
 
