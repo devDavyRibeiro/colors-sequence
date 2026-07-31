@@ -44,6 +44,9 @@ function Sequencie(props: {
 
   const dropHandler = (e:React.DragEvent<HTMLDivElement>)=>{
     e.preventDefault();
+    if(e.currentTarget.hasChildNodes()){
+      return;
+    }
     const data = e.dataTransfer.getData("text");
     const element = document.getElementById(data);
     if(element){
