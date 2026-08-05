@@ -29,13 +29,13 @@ O objetivo deste projeto é matar a curiosidade e aprender mais sobre React e Ta
   - aumentar/diminuir o tamanho da sequência
   - ativar/desativar Desvendar Sequência
 
-![tela para testar a sequência](image-3.png)
+![tela para testar a sequência](./public/sequence.png)
 
 ## Como executar?
 Têm duas opções
 
 ### Site
-Acesse o link no seu navegador preferido
+Acesse o link https://colors-sequence.vercel.app/ no seu navegador preferido
 
 ### Localmente
 
