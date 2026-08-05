@@ -1,73 +1,59 @@
-# React + TypeScript + Vite
+# Color Sequence
+![menu de Color Sequence](./public/menu.png)
+## O que é?
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O Colors Sequence é uma aplicação onde o usuário deve adivinhar uma determinada a sequência de cores gerada, sabendo somente a quantidade de cores certas e a quantidade de posições das cores corretas.
 
-Currently, two official plugins are available:
+## Objetivo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+O objetivo deste projeto é matar a curiosidade e aprender mais sobre React e Tailwind CSS, praticar a construção de componentes e entender como montar uma interface estilizada usando a biblioteca Tailwind. Além disso, é a vontade de criar algo próprio e resolver um desafio de lógica.
 
-## React Compiler
+## Tecnologias
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+  [![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)](#)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-%2338B2AC.svg?logo=tailwind-css&logoColor=white)](#)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)](#)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Funcionalidades
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Exibição responsiva com estilo moderno
+- Geração de sequências de cores randomicamente
+- Interação Drag-Drop básica para testar diferentes combinações
+- Verificação da Sequência e retornando o resultado
+- Contador de tentivas 
+- Código para desvendar sequência gerada
+- Formulário de Menu para personalizar a sequência:
+  - adicionar/remover cores
+  - aumentar/diminuir o tamanho da sequência
+  - ativar/desativar Desvendar Sequência
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+![tela para testar a sequência](image-3.png)
+
+## Como executar?
+Têm duas opções
+
+### Site
+Acesse o link no seu navegador preferido
+
+### Localmente
+
+1. Clone o repositório e baixe as dependências
+``` bash
+  git clone https://github.com/devDavyRibeiro/colors-sequence.git
+```
+``` bash
+  npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Execute o comando para iniciar a aplicação
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+``` bash
+  npm run dev
 ```
+
+3. Acesse pelo navegador em http://localhost:5173/
+
+## Observações
+Esta é a primeira vez que usei o React (ainda mais com TS) e o Tailwind CSS. Então se houver alguma coisa que não é recomendado, ou boa prática, ou alguma melhoria que queira sugir, pode conversar comigo que ouvirei com todo o prazer 😁
