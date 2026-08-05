@@ -10,29 +10,38 @@ import type { IForm } from "./menu";
 import Swal from 'sweetalert2';
 
 
+interface IResponse{
+  numColor:number,
+  numPosition:number
+}
+
+
 function Sequencie(props: {
   form: IForm
 }) {
-
-  const [lances,setLances] = useState(0);
-  const sequenceInitial = useMemo(()=>{
-    const tintasAll = ['red', 'green', 'blue', 'yellow', 'white', 'pink']
-    const tintasInGame = tintasAll.slice(0, props.form.colorCount)
   
+  const [lances,setLances] = useState(0);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const tintasInGame = ['red', 'green', 'blue', 'yellow', 'white', 'pink']
+  
+  const sequenceInitial = useMemo(()=>{    
     const sequence: string[] = []
   
     while (sequence.length !== props.form.colorCount) {
       // eslint-disable-next-line react-hooks/purity
-      const randomNumber = Math.floor(Math.random() * props.form.colorCount)
+      const randomNumber = Math.floor(Math.random() * tintasInGame.length)
       const tinta = tintasInGame[randomNumber]
   
       if (sequence.includes(tinta)) continue
   
       sequence.push(tinta)
+  
     }
     return sequence
-  },[props.form.colorCount]) 
 
+  },[props.form.colorCount,tintasInGame]) 
+
+  console.log(sequenceInitial)
 
   const dragStartHandler = (e:React.DragEvent<HTMLImageElement>)=>{
     e.dataTransfer.setData("text",e.currentTarget.id)
@@ -44,48 +53,92 @@ function Sequencie(props: {
 
   const dropHandler = (e:React.DragEvent<HTMLDivElement>)=>{
     e.preventDefault();
+    const data = e.dataTransfer.getData("text");
+    const element = document.getElementById(data);
+    
     if(e.currentTarget.hasChildNodes()){
       return;
     }
-    const data = e.dataTransfer.getData("text");
-    const element = document.getElementById(data);
     if(element){
       e.currentTarget.appendChild(element);
     }
   }
 
-  const submitSequence = ()=>{
+
+  const verificationSequence =  async (sequenceNow:string[])=>{
     let numPosition : number = 0; 
     let numColor: number = 0;
-    const sequenceNow: string[] = [];
-    const documents:NodeListOf<HTMLImageElement> = document.querySelectorAll(".sequencie-container > .item img")
-    
-    if(documents.length < props.form.colorCount){
-      Swal.fire({
-        title:"Ops...",
-        text:`É preciso ter ${props.form.colorCount} tintas colocadas`,
-        icon:'error'
-      })
-      return
-    }
-
-    setLances(lances + 1);
-
-    
-    documents.forEach(d=>{
-      sequenceNow.push(d.id)
-    })
-
     for (let i = 0; i < sequenceNow.length; i++) {
-      
-      const positionTintaSequence = sequenceInitial.indexOf(sequenceNow[i]);
+      const positionTintaSequence = sequenceInitial!.indexOf(sequenceNow[i]);
       if(positionTintaSequence < 0) continue;
       numColor++;
 
       if(positionTintaSequence === i) numPosition++ 
     }
+    return {
+      numColor,
+      numPosition
+    }
+  }
 
-    if(numColor === props.form.colorCount && numPosition === props.form.colorCount){
+  const UnravelSequence = async()=>{
+    // eslint-disable-next-line no-useless-assignment
+    let response:IResponse={
+      numColor:0,
+      numPosition:0
+    }
+    let lances = 0;
+    const makeSequence = ()=>{
+      const sequence: string[] = []
+  
+      while (sequence.length !== props.form.colorCount) {
+        const randomNumber = Math.floor(Math.random() * tintasInGame.length)
+        const tinta = tintasInGame[randomNumber]
+    
+        if (sequence.includes(tinta)) continue
+    
+        sequence.push(tinta)
+    
+      }
+      return sequence
+    }
+    do{
+      const sequence = makeSequence();
+      response = await verificationSequence(sequence)
+      lances++;
+    } while(response.numColor !== props.form.colorCount || response.numPosition !== props.form.colorCount)
+      Swal.fire({
+        title: "Uau!",
+        text: "O PC acertou a sequência depois de " + lances + " tentativas!",
+        icon:"success",
+      })
+  }
+
+  const submitSequence = async()=>{
+
+    if(props.form.revealSequence){
+      UnravelSequence();
+    }
+    else{
+      const DocumentsItemSequencie:NodeListOf<HTMLImageElement> = document.querySelectorAll(".sequencie-container > .item img")
+      
+      if(DocumentsItemSequencie.length < props.form.colorCount){
+        Swal.fire({
+          title:"Ops...",
+          text:`É preciso ter ${props.form.colorCount} tintas colocadas`,
+          icon:'error'
+        })
+        return
+      }
+  
+    const sequenceNow: string[] = [];
+
+    DocumentsItemSequencie.forEach(d=>{
+      sequenceNow.push(d.id)
+    })
+    
+    const response = await verificationSequence(sequenceNow);
+    if(response.numColor === props.form.colorCount && response.numPosition === props.form.colorCount){
       Swal.fire({
         title: "Parabéns",
         text: "Você acertou a sequência com " + lances + " tentativas!",
@@ -93,9 +146,12 @@ function Sequencie(props: {
       })
     } 
     else{
-      Swal.fire(`Número de cores certas: ${numColor}  
-        \nNúmero de posições certas: ${numPosition}`)      
+      Swal.fire(`Número de cores certas: ${response.numColor}  
+        \nNúmero de posições certas: ${response.numPosition}`)      
     }
+    setLances(lances + 1);
+  }
+  
 
 
   }
@@ -132,7 +188,7 @@ function Sequencie(props: {
       <div className="sequencie-container flex h-45 w-full justify-between gap-5 items-center">
 
         {
-          sequenceInitial.map((_, i:number)=> {
+          sequenceInitial!.map((_, i:number)=> {
             return (
             <div key={i} className="item" onDragOver={dragOverHandler} onDrop={dropHandler}></div>
             )
