@@ -21,7 +21,7 @@ function Sequencie(props: {
 }) {
   
   const [lances,setLances] = useState(0);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  
   const tintasInGame = ['red', 'green', 'blue', 'yellow', 'white', 'pink']
   
   const sequenceInitial = useMemo(()=>{    
@@ -39,9 +39,8 @@ function Sequencie(props: {
     }
     return sequence
 
-  },[props.form.colorCount,tintasInGame]) 
+  },[props.form.colorCount]) 
 
-  console.log(sequenceInitial)
 
   const dragStartHandler = (e:React.DragEvent<HTMLImageElement>)=>{
     e.dataTransfer.setData("text",e.currentTarget.id)
@@ -65,15 +64,19 @@ function Sequencie(props: {
   }
 
 
-  const verificationSequence =  async (sequenceNow:string[])=>{
+  const verificationSequence =   (sequenceNow:string[]):IResponse=>{
     let numPosition : number = 0; 
     let numColor: number = 0;
+    console.log(sequenceInitial, sequenceNow)
     for (let i = 0; i < sequenceNow.length; i++) {
       const positionTintaSequence = sequenceInitial!.indexOf(sequenceNow[i]);
       if(positionTintaSequence < 0) continue;
+
       numColor++;
 
-      if(positionTintaSequence === i) numPosition++ 
+      if(positionTintaSequence === i) numPosition++
+      
+      console.log(`numColor: ${numColor} \n numPosition: ${numPosition}`)
     }
     return {
       numColor,
@@ -81,7 +84,7 @@ function Sequencie(props: {
     }
   }
 
-  const UnravelSequence = async()=>{
+  const UnravelSequence = ()=>{
     // eslint-disable-next-line no-useless-assignment
     let response:IResponse={
       numColor:0,
@@ -104,7 +107,7 @@ function Sequencie(props: {
     }
     do{
       const sequence = makeSequence();
-      response = await verificationSequence(sequence)
+      response = verificationSequence(sequence)
       lances++;
     } while(response.numColor !== props.form.colorCount || response.numPosition !== props.form.colorCount)
       Swal.fire({
@@ -114,7 +117,7 @@ function Sequencie(props: {
       })
   }
 
-  const submitSequence = async()=>{
+  const submitSequence = ()=>{
 
     if(props.form.revealSequence){
       UnravelSequence();
@@ -137,7 +140,7 @@ function Sequencie(props: {
       sequenceNow.push(d.id)
     })
     
-    const response = await verificationSequence(sequenceNow);
+    const response = verificationSequence(sequenceNow);
     if(response.numColor === props.form.colorCount && response.numPosition === props.form.colorCount){
       Swal.fire({
         title: "Parabéns",
