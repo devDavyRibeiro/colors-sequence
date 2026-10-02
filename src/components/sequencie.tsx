@@ -15,6 +15,11 @@ interface IResponse{
   numPosition:number
 }
 
+interface IMemorySequence{
+  sequence:string[],
+  response:IResponse
+}
+
 
 function Sequencie(props: {
   form: IForm
@@ -24,6 +29,7 @@ function Sequencie(props: {
   
   const tintasInGame = ['red', 'green', 'blue', 'yellow', 'white', 'pink']
   
+
   const sequenceInitial = useMemo(()=>{    
     const sequence: string[] = []
   
@@ -67,16 +73,15 @@ function Sequencie(props: {
   const verificationSequence =   (sequenceNow:string[]):IResponse=>{
     let numPosition : number = 0; 
     let numColor: number = 0;
-    console.log(sequenceInitial, sequenceNow)
+    const sequenceTempo = ['red', 'green', 'blue', 'yellow']
     for (let i = 0; i < sequenceNow.length; i++) {
-      const positionTintaSequence = sequenceInitial!.indexOf(sequenceNow[i]);
+      const positionTintaSequence = sequenceTempo!.indexOf(sequenceNow[i]);
       if(positionTintaSequence < 0) continue;
 
       numColor++;
 
       if(positionTintaSequence === i) numPosition++
       
-      console.log(`numColor: ${numColor} \n numPosition: ${numPosition}`)
     }
     return {
       numColor,
@@ -84,33 +89,49 @@ function Sequencie(props: {
     }
   }
 
+
+ const makeSequence = (colorCount: number, colors: string[])=>{
+    const sequence: string[] = []
+
+    while (sequence.length !== colorCount) {
+      const randomNumber = Math.floor(Math.random() * colors.length)
+      const tinta = colors[randomNumber]
+  
+      if (sequence.includes(tinta)) continue
+  
+      sequence.push(tinta)
+  
+    }
+    return sequence
+  }
+  
   const UnravelSequence = ()=>{
-    // eslint-disable-next-line no-useless-assignment
     let response:IResponse={
       numColor:0,
       numPosition:0
     }
     let lances = 0;
-    const makeSequence = ()=>{
-      const sequence: string[] = []
-  
-      while (sequence.length !== props.form.colorCount) {
-        const randomNumber = Math.floor(Math.random() * tintasInGame.length)
-        const tinta = tintasInGame[randomNumber]
-    
-        if (sequence.includes(tinta)) continue
-    
-        sequence.push(tinta)
-    
-      }
-      return sequence
-    }
-    do{
-      const sequence = makeSequence();
+    const memorySequence:IMemorySequence[]=[]
+
+    while(response.numColor !== props.form.colorCount || response.numPosition !== props.form.colorCount){  
+      const sequence = makeSequence(props.form.colorCount, tintasInGame);
       response = verificationSequence(sequence)
+      memorySequence.push({response,sequence})
+      console.log(memorySequence)
       lances++;
-    } while(response.numColor !== props.form.colorCount || response.numPosition !== props.form.colorCount)
-      Swal.fire({
+
+      if(response.numColor < memorySequence[lances-1].response.numColor){
+        console.log('menor')
+      }
+      else if(response.numColor > memorySequence[lances-1].response.numColor){
+        console.log('menor')
+      }
+      else{
+        console.log('igual')
+      }
+    } 
+      
+    Swal.fire({
         title: "Uau!",
         text: "O PC acertou a sequência depois de " + lances + " tentativas!",
         icon:"success",
